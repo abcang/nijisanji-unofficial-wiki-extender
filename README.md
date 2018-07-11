@@ -2,3 +2,7 @@
 にじさんじ非公式wikiを拡張するuserscript
 
 [インストール](https://github.com/abcang/nijisanji-unofficial-wiki-extender/raw/master/nijisanji-unofficial-wiki-extender.user.js)
+
+## 機能
+- 選択したライバーの配信予定をハイライト
+- 配信時間が過ぎたものは背景を暗くする
