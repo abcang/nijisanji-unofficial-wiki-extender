@@ -129,20 +129,22 @@
         // 本日の予定の配信時間が過ぎた予定を暗くする
         const now = new Date();
         for (const li of Array.from(document.querySelectorAll('table[summary="calendar frame"] ul.list1 > li'))) {
+            const isHighlight = regexp && li.innerText.match(regexp);
             const normalizedLi = li.cloneNode(true);
+
+            // 打ち消し線の内容を消す
             Array.from(normalizedLi.querySelectorAll('del')).forEach((del) => { del.innerText = '' });
+
             const match = li.innerText.split('～')[0].match(/(\d{1,2})時(\d{1,2})分/);
-            if (!match) {
-                continue;
+            if (match) {
+                const date = new Date(now.getFullYear(), now.getMonth(), now.getDate(), Number(match[1]), Number(match[2]));
+                if (date < now) {
+                    li.style.backgroundColor = isHighlight ? darkenHighlightColor : darkenColor;
+                    continue;
+                }
             }
 
-            const isHighlight = regexp && li.innerText.match(regexp);
-            const date = new Date(now.getFullYear(), now.getMonth(), now.getDate(), Number(match[1]), Number(match[2]));
-            if (date < now) {
-                li.style.backgroundColor = isHighlight ? darkenHighlightColor : darkenColor;
-            } else {
-                li.style.backgroundColor = isHighlight ? highlightColor : '';
-            }
+            li.style.backgroundColor = isHighlight ? highlightColor : '';
         }
     }
 
