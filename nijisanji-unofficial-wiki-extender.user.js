@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.1
+// @version      0.1.1
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
