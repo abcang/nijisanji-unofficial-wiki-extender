@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.2.0
+// @version      0.2.1
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -139,7 +139,7 @@
             // 打ち消し線の内容を消す
             Array.from(normalizedLi.querySelectorAll('del')).forEach((del) => { del.innerText = '' });
 
-            const match = li.innerText.split('～')[0].match(/(\d{1,2})時(\d{1,2})分/);
+            const match = normalizedLi.innerText.split('～')[0].match(/(\d{1,2})時(\d{1,2})分/);
             if (match) {
                 const date = new Date(now.getFullYear(), now.getMonth(), now.getDate(), Number(match[1]), Number(match[2]));
                 li.style.display = (hideOlder && date < threeHoursAgo) ? 'none' : '';
