@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.1.1
+// @version      0.2.0
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -10,6 +10,8 @@
 
 (function() {
     'use strict';
+
+    let hideOlder = true;
 
     function main() {
         highlightAndDarken();
@@ -20,6 +22,7 @@
         if (location.pathname === '/nijisanji/%E9%85%8D%E4%BF%A1%E4%BA%88%E5%AE%9A%E3%83%AA%E3%82%B9%E3%83%88' ||
             (Object.keys(query).length === 0 && location.pathname === '%E9%85%8D%E4%BF%A1%E4%BA%88%E5%AE%9A')) {
             addHighlightCheckbox();
+            addOlderToggleButton();
         }
     }
 
@@ -128,6 +131,7 @@
 
         // 本日の予定の配信時間が過ぎた予定を暗くする
         const now = new Date();
+        const threeHoursAgo = (() => { const d = new Date(); return d.setHours(d.getHours() - 3)})();
         for (const li of Array.from(document.querySelectorAll('table[summary="calendar frame"] ul.list1 > li'))) {
             const isHighlight = regexp && li.innerText.match(regexp);
             const normalizedLi = li.cloneNode(true);
@@ -138,6 +142,8 @@
             const match = li.innerText.split('～')[0].match(/(\d{1,2})時(\d{1,2})分/);
             if (match) {
                 const date = new Date(now.getFullYear(), now.getMonth(), now.getDate(), Number(match[1]), Number(match[2]));
+                li.style.display = (hideOlder && date < threeHoursAgo) ? 'none' : '';
+
                 if (date < now) {
                     li.style.backgroundColor = isHighlight ? darkenHighlightColor : darkenColor;
                     continue;
@@ -178,6 +184,33 @@
 
             tbody.appendChild(tr);
         }
+    }
+
+    function addOlderToggleButton() {
+        const targetList = document.querySelector('table[summary="calendar frame"] ul.list1');
+        if (!targetList) {
+            return;
+        }
+
+        function updateText(button) {
+            button.setAttribute('value', hideOlder ? '配信時間を過ぎた予定を表示する' : '配信時間を過ぎた予定を隠す');
+        }
+
+        const button = document.createElement('input');
+        button.setAttribute('type', 'button');
+        button.setAttribute('id', 'older-toggle');
+        updateText(button);
+        button.addEventListener('click', (e) => {
+            hideOlder = !hideOlder;
+            updateText(e.target);
+            highlightAndDarken();
+        })
+
+        const buttonWrapper = document.createElement('div');
+        buttonWrapper.style.display = 'flex';
+        buttonWrapper.style.justifyContent = 'flex-end';
+        buttonWrapper.appendChild(button);
+        targetList.parentNode.insertBefore(buttonWrapper, targetList);
     }
 
     function parseQuery() {
