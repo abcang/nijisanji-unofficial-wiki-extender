@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.3.0
+// @version      0.4.0
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -21,6 +21,7 @@
     if (document.querySelector('table[summary="calendar frame"]')) {
         // カレンダーを隠す
         addButtonWrapper();
+        ShapingData();
         applyDisplayCalendar();
         addCalendarToggleButton();
         addOlderToggleButton();
@@ -134,7 +135,6 @@
         HighlightSetting.DARKEN_HIGHLIGHT_COLOR = '#cccc00';
         HighlightSetting.DARKEN_COLOR = '#c0c0c0';
 
-
         return { HighlightSetting, highlightSetting: new HighlightSetting() };
     }
 
@@ -147,22 +147,70 @@
         }
     }
 
+    function ShapingData() {
+        const target = document.querySelector('table[summary="calendar frame"]');
+        const note = document.querySelector('.minicalendar_viewer > p');
+
+        if (!target || !note) {
+            return;
+        }
+        target.style.width = '100%';
+        target.parentNode.insertBefore(note.cloneNode(true), target);
+
+        const now = new Date();
+
+        const targetTd = document.querySelector('table[summary="calendar frame"] > tbody > tr > td:last-child');
+        targetTd.innerText = '';
+
+        // 3時までは前日の情報も表示
+        if (now.getHours() < 3) {
+            const yesterdayDate = document.querySelector('#h2_content_1_2').nextSibling.nextSibling;
+            const yesterdaySchedule = yesterdayDate.nextSibling.nextSibling.querySelector('ul');
+            yesterdaySchedule.classList.add('ex-yesterday');
+            targetTd.appendChild(yesterdayDate.cloneNode(true));
+            targetTd.appendChild(yesterdaySchedule.cloneNode(true));
+        }
+
+        const todayDate = document.querySelector('#h2_content_1_1').nextSibling.nextSibling;
+        const todaySchedule = todayDate.nextSibling.nextSibling.querySelector('ul');
+        todaySchedule.classList.add('ex-today');
+        targetTd.appendChild(todayDate.cloneNode(true));
+        targetTd.appendChild(todaySchedule.cloneNode(true));
+
+        // 21時を超えている場合は翌日の情報も表示
+        if (now.getHours() >= 21) {
+            const tomorrowDate = todayDate.nextSibling.nextSibling.nextSibling;
+            console.log(tomorrowDate);
+            const tomorrowSchedule = tomorrowDate.nextSibling.nextSibling.querySelector('ul');
+            targetTd.appendChild(tomorrowDate.cloneNode(true));
+            targetTd.appendChild(tomorrowSchedule.cloneNode(true));
+        }
+    }
+
     function highlightAndDarkenRecentSchedule() {
         const regexp = highlightSetting.getRegexp();
+        const now = new Date();
+        const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+        const threeHoursAgo = (() => { const d = new Date(); return d.setHours(d.getHours() - 3)})();
+
+        // 前日の予定を暗くする
+        for (const li of Array.from(document.querySelectorAll('.ex-yesterday > li'))) {
+            const isHighlight = regexp && li.innerText.match(regexp);
+            const date = parseDate(li, yesterday);
+
+            li.style.backgroundColor = isHighlight ? HighlightSetting.DARKEN_HIGHLIGHT_COLOR : HighlightSetting.DARKEN_COLOR;
+
+            if (date) {
+                li.style.display = (hideOlder && date < threeHoursAgo) ? 'none' : '';
+            }
+        }
 
         // 本日の予定の配信時間が過ぎた予定を暗くする
-        const now = new Date();
-        const threeHoursAgo = (() => { const d = new Date(); return d.setHours(d.getHours() - 3)})();
-        for (const li of Array.from(document.querySelectorAll('table[summary="calendar frame"] ul.list1 > li'))) {
+        for (const li of Array.from(document.querySelectorAll('.ex-today > li'))) {
             const isHighlight = regexp && li.innerText.match(regexp);
-            const normalizedLi = li.cloneNode(true);
+            const date = parseDate(li, now);
 
-            // 打ち消し線の内容を消す
-            Array.from(normalizedLi.querySelectorAll('del')).forEach((del) => { del.innerText = '' });
-
-            const match = normalizedLi.innerText.split('～')[0].match(/(\d{1,2})時(\d{1,2})分/);
-            if (match) {
-                const date = new Date(now.getFullYear(), now.getMonth(), now.getDate(), Number(match[1]), Number(match[2]));
+            if (date) {
                 li.style.display = (hideOlder && date < threeHoursAgo) ? 'none' : '';
 
                 if (date < now) {
@@ -266,5 +314,18 @@
 
         const buttonWrapper = document.querySelector('#ex-button-wrapper > :first-child');
         buttonWrapper.appendChild(button);
+    }
+
+    function parseDate(li, base) {
+        const normalizedLi = li.cloneNode(true);
+        // 打ち消し線の内容を消す
+        Array.from(normalizedLi.querySelectorAll('del')).forEach((del) => { del.innerText = '' });
+
+        const match = normalizedLi.innerText.split('～')[0].match(/(\d{1,2})時(\d{1,2})分/);
+        if (!match) {
+            return null;
+        }
+
+        return new Date(base.getFullYear(), base.getMonth(), base.getDate(), Number(match[1]), Number(match[2]));
     }
 })();
