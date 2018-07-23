@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.5.2
+// @version      0.5.3
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -176,7 +176,7 @@
         // 3時までは前日の情報も表示
         if (now.getHours() < 3) {
             const yesterdayDate = document.querySelector('#h2_content_1_2 + .date_weekday');
-            const yesterdaySchedule = document.querySelector('#h2_content_1_1 + .date_weekday + .minicalendar_viewer ul');
+            const yesterdaySchedule = document.querySelector('#h2_content_1_2 + .date_weekday + .minicalendar_viewer ul');
             yesterdaySchedule.classList.add('ex-yesterday');
             targetTd.appendChild(yesterdayDate.cloneNode(true));
             targetTd.appendChild(yesterdaySchedule.cloneNode(true));
