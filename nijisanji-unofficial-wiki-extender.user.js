@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.5.1
+// @version      0.5.2
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -190,7 +190,7 @@
 
         // 21時を超えている場合は翌日の情報も表示
         if (now.getHours() >= 21) {
-            const tomorrowDate = document.querySelector('#h2_content_1_1 + .date_weekday + .minicalendar_viewer + .date_weekday + .minicalendar_viewer');
+            const tomorrowDate = document.querySelector('#h2_content_1_1 + .date_weekday + .minicalendar_viewer + .date_weekday');
             const tomorrowSchedule = document.querySelector('#h2_content_1_1 + .date_weekday + .minicalendar_viewer + .date_weekday + .minicalendar_viewer ul');
             targetTd.appendChild(tomorrowDate.cloneNode(true));
             targetTd.appendChild(tomorrowSchedule.cloneNode(true));
