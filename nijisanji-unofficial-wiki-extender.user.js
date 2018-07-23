@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.4.0
+// @version      0.5.0
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -14,29 +14,39 @@
     const { highlightSetting, HighlightSetting } = createHighlightSetting();
     let hideOlder = true;
     let hideCalendar = true;
+    let interval = null;
 
-    highlightAll();
+    initialize();
 
-    // カレンダーのあるページだけで有効
-    if (document.querySelector('table[summary="calendar frame"]')) {
-        // カレンダーを隠す
-        addButtonWrapper();
-        ShapingData();
-        applyDisplayCalendar();
-        addCalendarToggleButton();
-        addOlderToggleButton();
+    function initialize() {
+        highlightAll();
 
-        highlightAndDarkenRecentSchedule();
-        setInterval(highlightAndDarkenRecentSchedule, 10 * 60 * 1000);
-    }
+        // カレンダーのあるページだけで有効
+        if (document.querySelector('table[summary="calendar frame"]')) {
+            // カレンダーを隠す
+            addButtonWrapper();
+            ShapingData();
+            applyDisplayCalendar();
+            addCalendarToggleButton();
+            addOlderToggleButton();
 
-    // ライバーの表があるページのみ有効
-    if ([
-        '/nijisanji/',
-        '/nijisanji/%E9%85%8D%E4%BF%A1%E4%BA%88%E5%AE%9A%E3%83%AA%E3%82%B9%E3%83%88', // 配信予定リスト
-        '/nijisanji/%E9%85%8D%E4%BF%A1%E3%83%9A%E3%83%BC%E3%82%B8%20%E3%82%B8%E3%83%A3%E3%83%B3%E3%83%97%E3%83%AA%E3%82%B9%E3%83%88', // 配信ページ%20ジャンプリスト
-    ].includes(location.pathname)) {
-        createHighlightCheckbox();
+            highlightAndDarkenRecentSchedule();
+
+            if (!interval) {
+                interval = setInterval(() => {
+                    reloadPage().then(() => initialize());
+                }, 10 * 60 * 1000);
+            }
+        }
+
+        // ライバーの表があるページのみ有効
+        if ([
+            '/nijisanji/',
+            '/nijisanji/%E9%85%8D%E4%BF%A1%E4%BA%88%E5%AE%9A%E3%83%AA%E3%82%B9%E3%83%88', // 配信予定リスト
+            '/nijisanji/%E9%85%8D%E4%BF%A1%E3%83%9A%E3%83%BC%E3%82%B8%20%E3%82%B8%E3%83%A3%E3%83%B3%E3%83%97%E3%83%AA%E3%82%B9%E3%83%88', // 配信ページ%20ジャンプリスト
+        ].includes(location.pathname)) {
+            createHighlightCheckbox();
+        }
     }
 
     function createHighlightSetting() {
@@ -160,28 +170,29 @@
         const now = new Date();
 
         const targetTd = document.querySelector('table[summary="calendar frame"] > tbody > tr > td:last-child');
+        targetTd.classList.add('minicalendar_viewer');
         targetTd.innerText = '';
 
         // 3時までは前日の情報も表示
         if (now.getHours() < 3) {
-            const yesterdayDate = document.querySelector('#h2_content_1_2').nextSibling.nextSibling;
-            const yesterdaySchedule = yesterdayDate.nextSibling.nextSibling.querySelector('ul');
+            const yesterdayDate = document.querySelector('#h2_content_1_2 + .date_weekday');
+            const yesterdaySchedule = document.querySelector('#h2_content_1_1 + .date_weekday + .minicalendar_viewer ul');
             yesterdaySchedule.classList.add('ex-yesterday');
             targetTd.appendChild(yesterdayDate.cloneNode(true));
             targetTd.appendChild(yesterdaySchedule.cloneNode(true));
         }
 
-        const todayDate = document.querySelector('#h2_content_1_1').nextSibling.nextSibling;
-        const todaySchedule = todayDate.nextSibling.nextSibling.querySelector('ul');
+        const todayDate = document.querySelector('#h2_content_1_1 + .date_weekday');
+        const todaySchedule = document.querySelector('#h2_content_1_1 + .date_weekday + .minicalendar_viewer ul');
         todaySchedule.classList.add('ex-today');
         targetTd.appendChild(todayDate.cloneNode(true));
         targetTd.appendChild(todaySchedule.cloneNode(true));
 
         // 21時を超えている場合は翌日の情報も表示
         if (now.getHours() >= 21) {
-            const tomorrowDate = todayDate.nextSibling.nextSibling.nextSibling;
-            console.log(tomorrowDate);
-            const tomorrowSchedule = tomorrowDate.nextSibling.nextSibling.querySelector('ul');
+            const tomorrowDate = document.querySelector('#h2_content_1_1 + .date_weekday + .minicalendar_viewer + .date_weekday + .minicalendar_viewer');
+            const tomorrowSchedule = document.querySelector('#h2_content_1_1 + .date_weekday + .minicalendar_viewer + .date_weekday + .minicalendar_viewer ul');
+            console.log(todayDate, tomorrowDate, tomorrowSchedule);
             targetTd.appendChild(tomorrowDate.cloneNode(true));
             targetTd.appendChild(tomorrowSchedule.cloneNode(true));
         }
@@ -230,6 +241,7 @@
             checkbox.checked = highlightSetting.isHighlight(key);
             checkbox.addEventListener('change', (event) => {
                 highlightSetting.toggleHighlight(key);
+                highlightAll();
                 highlightAndDarkenRecentSchedule();
             });
             return checkbox;
@@ -327,5 +339,22 @@
         }
 
         return new Date(base.getFullYear(), base.getMonth(), base.getDate(), Number(match[1]), Number(match[2]));
+    }
+
+    function reloadPage() {
+        return fetch(location.href).then((res) => res.text()).then((bodyText) => {
+            const parser = new DOMParser();
+            const body = parser.parseFromString(bodyText, 'text/html');
+            const target = document.querySelector("#body");
+
+            target.innerText = '';
+            for (const ele of Array.from(body.querySelector("#body").children)) {
+                target.appendChild(ele);
+            }
+
+            const DOMContentLoaded_event = document.createEvent("Event");
+            DOMContentLoaded_event.initEvent("DOMContentLoaded", true, true);
+            window.document.dispatchEvent(DOMContentLoaded_event);
+        });
     }
 })();
