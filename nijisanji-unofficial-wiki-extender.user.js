@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.5.3
+// @version      0.6.0
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -196,26 +196,26 @@
 
         // 3時までは前日の情報も表示
         if (now.getHours() < 3) {
-            const yesterdayDate = document.querySelector('#h2_content_1_2 + .date_weekday');
-            const yesterdaySchedule = document.querySelector('#h2_content_1_2 + .date_weekday + .minicalendar_viewer ul');
+            const yesterdayDate = document.querySelector('#h2_content_1_2 + h3').cloneNode(true);
+            const yesterdaySchedule = document.querySelector('#h2_content_1_2 + h3 + .minicalendar_viewer ul').cloneNode(true);
             yesterdaySchedule.classList.add('ex-yesterday');
-            targetTd.appendChild(yesterdayDate.cloneNode(true));
-            targetTd.appendChild(yesterdaySchedule.cloneNode(true));
+            targetTd.appendChild(yesterdayDate);
+            targetTd.appendChild(yesterdaySchedule);
         }
 
-        const todayDate = document.querySelector('#h2_content_1_1 + .date_weekday');
-        const todaySchedule = document.querySelector('#h2_content_1_1 + .date_weekday + .minicalendar_viewer ul');
+        const todayDate = document.querySelector('#h2_content_1_1 + h3').cloneNode(true);
+        const todaySchedule = document.querySelector('#h2_content_1_1 + h3 + .minicalendar_viewer ul').cloneNode(true);
         todaySchedule.classList.add('ex-today');
-        targetTd.appendChild(todayDate.cloneNode(true));
-        targetTd.appendChild(todaySchedule.cloneNode(true));
+        targetTd.appendChild(todayDate);
+        targetTd.appendChild(todaySchedule);
 
         // 21時を超えている場合は翌日の情報も表示
         if (now.getHours() >= 21) {
-            const tomorrowDate = document.querySelector('#h2_content_1_1 + .date_weekday + .minicalendar_viewer + .date_weekday');
-            const tomorrowSchedule = document.querySelector('#h2_content_1_1 + .date_weekday + .minicalendar_viewer + .date_weekday + .minicalendar_viewer ul');
+            const tomorrowDate = document.querySelector('#h2_content_1_1 + h3 + .minicalendar_viewer + h3').cloneNode(true);
+            const tomorrowSchedule = document.querySelector('#h2_content_1_1 + h3 + .minicalendar_viewer + h3 + .minicalendar_viewer ul').cloneNode(true);
             tomorrowSchedule.classList.add('ex-tomorrow');
-            targetTd.appendChild(tomorrowDate.cloneNode(true));
-            targetTd.appendChild(tomorrowSchedule.cloneNode(true));
+            targetTd.appendChild(tomorrowDate);
+            targetTd.appendChild(tomorrowSchedule);
         }
     }
 
@@ -234,7 +234,7 @@
         const now = new Date();
         const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
 
-        for (const li of Array.from(document.querySelectorAll('table[summary="calendar frame"] .ex-today > li'))) {
+        for (const li of Array.from(document.querySelectorAll('.ex-today > li'))) {
             const innerText = normalizedElementText(li);
             const match = innerText.match(regexp);
             const date = parseDate(li, now);
@@ -247,7 +247,7 @@
             }
         }
 
-        for (const li of Array.from(document.querySelectorAll('table[summary="calendar frame"] .ex-tomorrow > li'))) {
+        for (const li of Array.from(document.querySelectorAll('.ex-tomorrow > li'))) {
             const innerText = normalizedElementText(li);
             const match = innerText.match(regexp);
             const date = parseDate(li, tomorrow);
@@ -420,7 +420,7 @@
     }
 
     function reloadPage() {
-        return Promise.new((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             // 通知タイミングちょうどにリロードしないようにずらす
             const seconds = (new Date()).getSeconds();
             if (seconds < 10) {
