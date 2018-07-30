@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.6.0
+// @version      0.6.1
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -96,6 +96,10 @@
                     { key: 'sasaki_saku', name: '笹木咲', icon: '/nijisanji/?plugin=ref&page=笹木咲&src=foX-dRp6_400x400.jpg' },
                     { key: 'yamiyono_moruru', name: '闇夜乃モルル', icon: '/nijisanji/?plugin=ref&page=闇夜乃モルル&src=rnrrdark_400x400.jpg' },
                     { key: 'honma_himawari', name: '本間ひまわり', icon: '/nijisanji/?plugin=ref&page=本間ひまわり&src=honmahimawari_400x400.jpg' },
+                    { key: 'ririmu', name: '魔界ノりりむ', icon: '/nijisanji/?plugin=ref&page=魔界ノりりむ&src=ririmu.jpg' },
+                    { key: 'kuzuha', name: '葛葉', icon: '/nijisanji/?plugin=ref&page=葛葉&src=kuzuha.jpg' },
+                    { key: 'setsuna', name: '雪汝', icon: '/nijisanji/?plugin=ref&page=雪汝&src=setsuna.jpg' },
+                    { key: 'yuika', name: '椎名唯華', icon: '/nijisanji/?plugin=ref&page=椎名唯華&src=yuika.jpg' },
                     // SEEDs
                     { key: 'dola', name: 'ドーラ', icon: '/nijisanji/?plugin=ref&page=ドーラ&src=do-ra.png' },
                     { key: 'umiyasyanokami', name: '海夜叉神', icon: '/nijisanji/?plugin=ref&page=海夜叉神&src=kami.png' },
