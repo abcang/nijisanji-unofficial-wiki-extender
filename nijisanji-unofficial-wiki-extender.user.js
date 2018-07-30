@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.6.1
+// @version      0.6.2
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -12,6 +12,7 @@
     'use strict';
 
     const { highlightSetting, HighlightSetting } = createHighlightSetting();
+    const notifySound = new Audio('data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjEyLjEwMAAAAAAAAAAAAAAA/+NAwAAAAAAAAAAAAEluZm8AAAAPAAAAEAAABBQAPz8/Pz8/TExMTExMWVlZWVlZZmZmZmZmc3Nzc3Nzc4CAgICAgIyMjIyMjJmZmZmZmaampqampqazs7Ozs7PAwMDAwMDMzMzMzMzZ2dnZ2dnZ5ubm5ubm8/Pz8/Pz////////AAAAAExhdmM1OC4xOAAAAAAAAAAAAAAAACQDmgAAAAAAAAQU/8yg/gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/jEMQACEAC0llBGAJuS2yEK4AMROD4OAgCAIAgD4P1gQEAQOFAfUIAxu8P0e8MhkM/////4xLEBgpiSsgBhaAA5M8j+McHbGzwHMQuXwMdGFLf//////////8oEh/5SGB/6YqlgADBAP/jEMQECUHy1ZvKmAMkA1N/////V8yFJAPsBbo4WSbS///////////69Qr4torAAAYTjiD/4xDEBgiJ8vG8OBoeAO66R4tEgIYNX6v+vtU2t//+rv13qUv///xHmqoAQK20brUkak8L/+MQxAoJqfLQeBAmHiQ1IKlf6v/tdt1V9f20Guvu72auqvX661fVx8m9AwiQCAAO9JIuk//jEsQKClHywF44KB5CEpBgdVNvq///7006CDLTrqd07M7M3////kyN//76lQMMkAd6SRiT/+MQxAgJgfLAWDgoHkK6GpgtBS+r/32T07rWuzWS9lKrXrW76m////IweoABRBsIDfSMSf/jEMQJB8Hy4RoQGh7CFF0Uf1f//+39JJFm+yta9Tf///KnBgE///V9/+6lnBrgkfwCoSX/4xDEEQfh9pAAqCVkgzVer///9X///QBDA7E1A/HAAoABZ////oU1IU6lLMBjgfQff3/r/+MSxBgHAfbEfmgVbOwXQceAAAZAAe8AFv/////5grhiJv6fV/a+/UVhn/+pAwACvAARb///4xDEJAbx9vG+UA9O////Wgbgliiof2/X9VrgZE3/pfllQDE3////1f1G4FBYfKXE29Dw/+MQxC8HIfKgXoAVTJAYDP+hgDE2zoLVb9v7BDiTtWtS+h/1f////t/2/6v0lnD50Mmtiv/jEMQ5BbHyfAKgD1AD5IBAAAp/QaAJBYooaCojAQqZCRI2LIH3s///+IoAwOiALQswsoH/4xLESQhZ8nwCoCBsB0eoWFQz6AZFRbULkcVFsWF2YqLVTEFNRTMuMTAwVVVVVVVVVVVVVf/jEMRPB3CywF4ICh5VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/4xDEWAdYMhQASYYEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV');
     const timers = [];
     const notifyBeforeMinutes = 10;
     let hideOlder = true;
@@ -272,6 +273,7 @@
 
         timers.push(setTimeout(() => {
             new Notification(name, { icon, body });
+            notifySound.play();
         }, miliseconds));
     }
 
