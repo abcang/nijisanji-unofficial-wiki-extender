@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.6.3
+// @version      0.6.4
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -279,7 +279,8 @@
 
         timers.push(setTimeout(() => {
             new Notification(name, { icon, body });
-            notifySound.play();
+            // 自動再生問題に引っかかるので一旦無効化
+            // notifySound.play();
         }, miliseconds));
     }
 
