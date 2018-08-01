@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.6.4
+// @version      0.6.5
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -20,8 +20,6 @@
     let interval = null;
     let canNotify = false;
 
-    initialize();
-
     if (window.Notification) {
         if (Notification.permission === 'granted') {
             canNotify = true;
@@ -34,6 +32,8 @@
             });
         }
     }
+
+    initialize();
 
     function initialize() {
         highlightAll();
@@ -236,6 +236,10 @@
             clearTimeout(timer);
         }
 
+        if (!canNotify) {
+            return;
+        }
+
         const regexp = highlightSetting.getRegexp();
 
         if (!regexp) {
@@ -262,7 +266,6 @@
             const innerText = normalizedElementText(li);
             const match = innerText.match(regexp);
             const date = parseDate(li, tomorrow);
-            date.setMinutes(date.getMinutes() - notifyBeforeMinutes);
 
             if (match && date) {
                 date.setMinutes(date.getMinutes() - notifyBeforeMinutes);
@@ -279,8 +282,7 @@
 
         timers.push(setTimeout(() => {
             new Notification(name, { icon, body });
-            // 自動再生問題に引っかかるので一旦無効化
-            // notifySound.play();
+            notifySound.play();
         }, miliseconds));
     }
 
