@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.6.6
+// @version      0.7.0
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -12,9 +12,9 @@
     'use strict';
 
     const { highlightSetting, HighlightSetting } = createHighlightSetting();
+    const { notificationTimeSetting, NotificationTimeSetting } = createNotificationTimeSetting();
     const notifySound = new Audio('data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjEyLjEwMAAAAAAAAAAAAAAA/+NAwAAAAAAAAAAAAEluZm8AAAAPAAAAEAAABBQAPz8/Pz8/TExMTExMWVlZWVlZZmZmZmZmc3Nzc3Nzc4CAgICAgIyMjIyMjJmZmZmZmaampqampqazs7Ozs7PAwMDAwMDMzMzMzMzZ2dnZ2dnZ5ubm5ubm8/Pz8/Pz////////AAAAAExhdmM1OC4xOAAAAAAAAAAAAAAAACQDmgAAAAAAAAQU/8yg/gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/jEMQACEAC0llBGAJuS2yEK4AMROD4OAgCAIAgD4P1gQEAQOFAfUIAxu8P0e8MhkM/////4xLEBgpiSsgBhaAA5M8j+McHbGzwHMQuXwMdGFLf//////////8oEh/5SGB/6YqlgADBAP/jEMQECUHy1ZvKmAMkA1N/////V8yFJAPsBbo4WSbS///////////69Qr4torAAAYTjiD/4xDEBgiJ8vG8OBoeAO66R4tEgIYNX6v+vtU2t//+rv13qUv///xHmqoAQK20brUkak8L/+MQxAoJqfLQeBAmHiQ1IKlf6v/tdt1V9f20Guvu72auqvX661fVx8m9AwiQCAAO9JIuk//jEsQKClHywF44KB5CEpBgdVNvq///7006CDLTrqd07M7M3////kyN//76lQMMkAd6SRiT/+MQxAgJgfLAWDgoHkK6GpgtBS+r/32T07rWuzWS9lKrXrW76m////IweoABRBsIDfSMSf/jEMQJB8Hy4RoQGh7CFF0Uf1f//+39JJFm+yta9Tf///KnBgE///V9/+6lnBrgkfwCoSX/4xDEEQfh9pAAqCVkgzVer///9X///QBDA7E1A/HAAoABZ////oU1IU6lLMBjgfQff3/r/+MSxBgHAfbEfmgVbOwXQceAAAZAAe8AFv/////5grhiJv6fV/a+/UVhn/+pAwACvAARb///4xDEJAbx9vG+UA9O////Wgbgliiof2/X9VrgZE3/pfllQDE3////1f1G4FBYfKXE29Dw/+MQxC8HIfKgXoAVTJAYDP+hgDE2zoLVb9v7BDiTtWtS+h/1f////t/2/6v0lnD50Mmtiv/jEMQ5BbHyfAKgD1AD5IBAAAp/QaAJBYooaCojAQqZCRI2LIH3s///+IoAwOiALQswsoH/4xLESQhZ8nwCoCBsB0eoWFQz6AZFRbULkcVFsWF2YqLVTEFNRTMuMTAwVVVVVVVVVVVVVf/jEMRPB3CywF4ICh5VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/4xDEWAdYMhQASYYEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV');
     const timers = [];
-    const notifyBeforeMinutes = 10;
     let hideOlder = true;
     let hideCalendar = true;
     let interval = null;
@@ -23,13 +23,6 @@
     if (window.Notification) {
         if (Notification.permission === 'granted') {
             canNotify = true;
-        } else if (Notification.permission !== 'denied') {
-            // TODO: ボタンクリック時に確認ダイアログを出す
-            Notification.requestPermission((permission) => {
-                if (permission === 'granted') {
-                    canNotify = true;
-                }
-            });
         }
     }
 
@@ -38,14 +31,17 @@
     function initialize() {
         highlightAll();
 
+        const target = document.querySelector('table[summary="calendar frame"]');
+
         // カレンダーのあるページだけで有効
-        if (document.querySelector('table[summary="calendar frame"]')) {
-            // カレンダーを隠す
-            addButtonWrapper();
+        if (target) {
+            const [leftButton, rightButton] = createButtonWrappers(target);
+
             ShapingData();
             applyDisplayCalendar();
-            addCalendarToggleButton();
-            addOlderToggleButton();
+            leftButton.appendChild(createCalendarToggleButton());
+            rightButton.appendChild(createNotificationSetting());
+            rightButton.appendChild(createOlderToggleButton());
 
             highlightAndDarkenRecentSchedule();
             initializeNotificationTimer();
@@ -180,6 +176,32 @@
         return { HighlightSetting, highlightSetting: new HighlightSetting() };
     }
 
+    function createNotificationTimeSetting() {
+        class NotificationTimeSetting {
+            constructor() {
+                this.settingKey = 'nijisanji_unofficial_wiki_extender_notification_time';
+                this.time = Number(localStorage.getItem(this.settingKey) || '10');
+            }
+
+            getTime() {
+                return this.time;
+            }
+
+            setTime(time) {
+                this.time = Number(time);
+                this.saveSettings();
+            }
+
+            saveSettings() {
+                try {
+                    localStorage.setItem(this.settingKey, this.time);
+                } catch (e) { console.error(e); }
+            }
+        }
+
+        return { NotificationTimeSetting, notificationTimeSetting: new NotificationTimeSetting() };
+    }
+
     function highlightAll() {
         const regexp = highlightSetting.getRegexp();
 
@@ -261,7 +283,7 @@
             const date = parseDate(li, now);
 
             if (match && date) {
-                date.setMinutes(date.getMinutes() - notifyBeforeMinutes);
+                date.setMinutes(date.getMinutes() - notificationTimeSetting.getTime());
                 if (date > now) {
                     registerNotification(match[0], innerText, date - now);
                 }
@@ -274,7 +296,7 @@
             const date = parseDate(li, tomorrow);
 
             if (match && date) {
-                date.setMinutes(date.getMinutes() - notifyBeforeMinutes);
+                date.setMinutes(date.getMinutes() - notificationTimeSetting.getTime());
                 if (date > now) {
                     registerNotification(match[0], innerText, date - now);
                 }
@@ -363,22 +385,25 @@
     }
 
 
-    function addButtonWrapper() {
-        const target = document.querySelector('table[summary="calendar frame"]');
-        if (!target) {
-            return;
-        }
+    function createButtonWrappers(target) {
+        const leftButton = document.createElement('div');
+        const rightButton = document.createElement('div');
+
+        leftButton.style.display = 'flex';
+        rightButton.style.display = 'flex';
 
         const buttonWrapper = document.createElement('div');
         buttonWrapper.setAttribute('id', 'ex-button-wrapper');
         buttonWrapper.style.display = 'flex';
         buttonWrapper.style.justifyContent = 'space-between';
-        buttonWrapper.appendChild(document.createElement('div'));
-        buttonWrapper.appendChild(document.createElement('div'));
+        buttonWrapper.appendChild(leftButton);
+        buttonWrapper.appendChild(rightButton);
         target.parentNode.insertBefore(buttonWrapper, target);
+
+        return [leftButton, rightButton];
     }
 
-    function addOlderToggleButton() {
+    function createOlderToggleButton() {
         function updateText(button) {
             button.setAttribute('value', hideOlder ? '配信時間を過ぎた予定を表示する' : '配信時間を過ぎた予定を隠す');
         }
@@ -392,8 +417,61 @@
             highlightAndDarkenRecentSchedule();
         });
 
-        const buttonWrapper = document.querySelector('#ex-button-wrapper > :last-child');
-        buttonWrapper.appendChild(button);
+        return button;
+    }
+
+    function createNotificationSetting() {
+        const notificationSetting = document.createElement('div');
+
+        function initializeNotificationSetting() {
+            notificationSetting.innerText = '';
+
+            if (canNotify) {
+                const selector = document.createElement('select');
+                const selectedTime = notificationTimeSetting.getTime();
+                for (const time of [5, 10, 15, 20]) {
+                    const option = document.createElement('option');
+                    option.innerText = `${time}前に通知`;
+                    option.setAttribute('value', time);
+                    selector.appendChild(option);
+                    if (time === selectedTime) {
+                        option.setAttribute('selected', 'selected');
+                    }
+                }
+
+                selector.addEventListener('change', function() {
+                    const index = this.selectedIndex;
+                    const value = this.options[index].value;
+                    notificationTimeSetting.setTime(value);
+                    initializeNotificationTimer();
+                });
+                notificationSetting.appendChild(selector);
+            } else {
+                const enableButton = document.createElement('input');
+                enableButton.setAttribute('type', 'button');
+                enableButton.setAttribute('value', '通知を有効化する');
+
+                enableButton.addEventListener('click', () => {
+                    if (Notification.permission !== 'denied') {
+                        Notification.requestPermission((permission) => {
+                            if (permission === 'granted') {
+                                canNotify = true;
+                                initializeNotificationTimer();
+                                initializeNotificationSetting();
+                            }
+                        });
+                    } else {
+                        alert('通知がブロックされています。ブラウザの設定を変更して通知を有効化してください。');
+                    }
+                });
+
+                notificationSetting.appendChild(enableButton);
+            }
+        }
+
+        initializeNotificationSetting();
+
+        return notificationSetting;
     }
 
     function applyDisplayCalendar() {
@@ -405,7 +483,7 @@
         calendar.style.display = hideCalendar ? 'none' : '';
     }
 
-    function addCalendarToggleButton() {
+    function createCalendarToggleButton() {
         function updateText(button) {
             button.setAttribute('value', hideCalendar ? 'カレンダーを表示する' : 'カレンダーを隠す');
         }
@@ -419,8 +497,7 @@
             applyDisplayCalendar();
         });
 
-        const buttonWrapper = document.querySelector('#ex-button-wrapper > :first-child');
-        buttonWrapper.appendChild(button);
+        return button;
     }
 
     function normalizedElementText(ele) {
