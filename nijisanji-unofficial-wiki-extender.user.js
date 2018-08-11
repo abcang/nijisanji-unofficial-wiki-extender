@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.6.5
+// @version      0.6.6
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -101,7 +101,7 @@
                     { key: 'kuzuha', name: '葛葉', icon: '/nijisanji/?plugin=ref&page=葛葉&src=kuzuha.jpg' },
                     { key: 'setsuna', name: '雪汝', icon: '/nijisanji/?plugin=ref&page=雪汝&src=setsuna.jpg' },
                     { key: 'yuika', name: '椎名唯華', icon: '/nijisanji/?plugin=ref&page=椎名唯華&src=yuika.jpg' },
-                    // SEEDs
+                    // SEEDs 1期生
                     { key: 'dola', name: 'ドーラ', icon: '/nijisanji/?plugin=ref&page=ドーラ&src=do-ra.png' },
                     { key: 'umiyasyanokami', name: '海夜叉神', icon: '/nijisanji/?plugin=ref&page=海夜叉神&src=kami.png' },
                     { key: 'nakao_azuma', name: '名伽尾アズマ', icon: '/nijisanji/?plugin=ref&page=名伽尾アズマ&src=azuma.png' },
@@ -115,11 +115,17 @@
                     { key: 'ryushen', name: '緑仙', icon: '/nijisanji/?plugin=ref&page=緑仙&src=CQicycXP_400x400_0.jpg' },
                     { key: 'uzuki_kou', name: '卯月コウ', icon: '/nijisanji/?plugin=ref&page=卯月コウ&src=_v3TMKaM_400x400_1.jpg' },
                     { key: 'hassaku_yuzu', name: '八朔ゆず', icon: '/nijisanji/?plugin=ref&page=八朔ゆず&src=m3hTJp7B_400x400.jpg' },
-                    // VOIZ
-                    { key: 'naruse_naru', name: '成瀬鳴', icon: '/nijisanji/?plugin=ref&page=成瀬鳴&src=naruse.jpg' },
+                    // SEEDs 2期生
+                    { key: 'kanda', name: '神田笑一', icon: '/nijisanji/?plugin=ref&page=神田笑一&src=kanda.jpg' },
+                    { key: 'kogane', name: '鳴門こがね', icon: '/nijisanji/?plugin=ref&page=鳴門こがね&src=kogane.jpg' },
+                    { key: 'hina', name: '飛鳥ひな', icon: '/nijisanji/?plugin=ref&page=飛鳥ひな&src=hina.jpg' },
                     { key: 'harusaki_air', name: '春崎エアル', icon: '/nijisanji/?plugin=ref&page=春崎エアル&src=harusaki.jpg' },
-                    // COO
+                    { key: 'sayo', name: '雨森小夜', icon: '/nijisanji/?plugin=ref&page=雨森小夜&src=sayo.jpg' },
+                    { key: 'rion', name: '鷹宮リオン', icon: '/nijisanji/?plugin=ref&page=鷹宮リオン&src=rion.jpg' },
+                    { key: 'keisuke', name: '舞元啓介', icon: '/nijisanji/?plugin=ref&page=舞元啓介&src=keisuke.jpg' },
+                    // その他
                     { key: 'iwanaga', name: 'いわなが', icon: '/nijisanji/?plugin=ref&page=いわながライブ&src=iwanaga.jpg' },
+                    { key: 'naruse_naru', name: '成瀬鳴', icon: '/nijisanji/?plugin=ref&page=成瀬鳴&src=naruse.jpg' },
                 ];
                 this.settingKey = 'nijisanji_unofficial_wiki_extender_highlight_livers';
                 this.settings = new Set((localStorage.getItem(this.settingKey) || '').split(',').filter((key) => key));
