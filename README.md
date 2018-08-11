@@ -1,12 +1,17 @@
 # nijisanji-unofficial-wiki-extender
 にじさんじ非公式wikiを拡張するuserscript
 
+あらかじめ[Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ja)もしくは[Greasemonkey](https://addons.mozilla.org/ja/firefox/addon/greasemonkey/)をインストールしてください。
+
 [インストール](https://github.com/abcang/nijisanji-unofficial-wiki-extender/raw/master/nijisanji-unofficial-wiki-extender.user.js)
 
 ## 機能
 - 選択したライバーの配信予定をハイライト
-- 配信時間が過ぎたものは背景を暗くする
-- 配信時刻から3時間過ぎた予定は隠す
-- カレンダー非表示機能
-- 0時の前後3時間の場合、本日の予定の欄に前日や翌日の情報も表示
-- 10分おきにリロード
+- ハイライト対象のユーザーの配信n分前に通知
+  - ページ表示後にページ内のどこかをクリックしないと通知音が鳴らない問題があります
+- 10分おきに最新情報を更新
+- 直近の配信予定が見やすくなる
+  - 配信時間が過ぎたものは背景が暗くなる
+  - 配信時刻から3時間過ぎた予定は隠す
+  - 0時の前後3時間の場合、本日の予定の欄に前日や翌日の情報も表示
+- カレンダーを非表示
