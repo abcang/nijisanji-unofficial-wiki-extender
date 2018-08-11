@@ -1,5 +1,6 @@
-# nijisanji-unofficial-wiki-extender
-[にじさんじ非公式wikiの配信スケジュールページ](https://wikiwiki.jp/nijisanji/%E9%85%8D%E4%BF%A1%E4%BA%88%E5%AE%9A%E3%83%AA%E3%82%B9%E3%83%88)を拡張するuserscript
+# にじさんじ非公式wikiの配信予定リストページを拡張するuserscript
+
+[にじさんじ非公式wikiの配信予定リストページ](https://wikiwiki.jp/nijisanji/%E9%85%8D%E4%BF%A1%E4%BA%88%E5%AE%9A%E3%83%AA%E3%82%B9%E3%83%88)を拡張するuserscriptです
 
 あらかじめ[Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ja)もしくは[Greasemonkey](https://addons.mozilla.org/ja/firefox/addon/greasemonkey/)をインストールしてください。
 
@@ -8,7 +9,7 @@
 ## 機能
 - 選択したライバーの配信予定をハイライト
 - ハイライト対象のユーザーの配信n分前に通知
-  - **ブラウザとページを開いたままにしておかないと通知されないので注意**
+  - **[にじさんじ非公式wikiの配信予定リストページ](https://wikiwiki.jp/nijisanji/%E9%85%8D%E4%BF%A1%E4%BA%88%E5%AE%9A%E3%83%AA%E3%82%B9%E3%83%88)を開いたままにしておかないと通知されないので注意**
   - ページ表示後にページ内のどこかをクリックしないと通知音が鳴らない問題があります
 - 10分おきに最新情報を更新
 - 直近の配信予定が見やすくなる
