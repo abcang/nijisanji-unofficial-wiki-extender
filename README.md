@@ -1,5 +1,5 @@
 # nijisanji-unofficial-wiki-extender
-にじさんじ非公式wikiを拡張するuserscript
+[にじさんじ非公式wikiの配信スケジュールページ](https://wikiwiki.jp/nijisanji/%E9%85%8D%E4%BF%A1%E4%BA%88%E5%AE%9A%E3%83%AA%E3%82%B9%E3%83%88)を拡張するuserscript
 
 あらかじめ[Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ja)もしくは[Greasemonkey](https://addons.mozilla.org/ja/firefox/addon/greasemonkey/)をインストールしてください。
 
