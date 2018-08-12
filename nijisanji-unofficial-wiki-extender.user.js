@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.7.0
+// @version      0.7.1
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -431,7 +431,7 @@
                 const selectedTime = notificationTimeSetting.getTime();
                 for (const time of [5, 10, 15, 20]) {
                     const option = document.createElement('option');
-                    option.innerText = `${time}前に通知`;
+                    option.innerText = `${time}分前に通知`;
                     option.setAttribute('value', time);
                     selector.appendChild(option);
                     if (time === selectedTime) {
