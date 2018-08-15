@@ -5,6 +5,8 @@
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
+// @updateURL    https://github.com/abcang/nijisanji-unofficial-wiki-extender/raw/master/nijisanji-unofficial-wiki-extender.user.js
+// @downloadURL  https://github.com/abcang/nijisanji-unofficial-wiki-extender/raw/master/nijisanji-unofficial-wiki-extender.user.js
 // @run-at      document-end
 // ==/UserScript==
 
