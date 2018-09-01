@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.7.2
+// @version      0.7.3
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -121,6 +121,13 @@
                     { key: 'sayo', name: '雨森小夜', icon: '/nijisanji/?plugin=ref&page=雨森小夜&src=sayo.jpg' },
                     { key: 'rion', name: '鷹宮リオン', icon: '/nijisanji/?plugin=ref&page=鷹宮リオン&src=rion.jpg' },
                     { key: 'keisuke', name: '舞元啓介', icon: '/nijisanji/?plugin=ref&page=舞元啓介&src=keisuke.jpg' },
+                    { key: 'mikoto', name: '竜胆尊', icon: '/nijisanji/?plugin=ref&page=竜胆尊&src=mikoto.jpg' },
+                    { key: 'debiru', name: 'でびでび・でびる', icon: '/nijisanji/?plugin=ref&page=でびでび・でびる&src=debiru.jpg' },
+                    { key: 'ritsuki', name: '桜凛月', icon: '/nijisanji/?plugin=ref&page=桜凛月&src=ritsuki.jpg' },
+                    { key: 'chima', name: '町田ちま', icon: '/nijisanji/?plugin=ref&page=町田ちま&src=chima.jpg' },
+                    { key: 'shizuku', name: '月見しずく', icon: '/nijisanji/?plugin=ref&page=月見しずく&src=shizuku.jpg' },
+                    { key: 'rikiichi', name: 'ジョー・力一', icon: '/nijisanji/?plugin=ref&page=ジョー・力一&src=rikiichi.jpg' },
+                    { key: 'achikita', name: '遠北千南', icon: '/nijisanji/?plugin=ref&page=遠北千南&src=achikita.jpg' },
                     // その他
                     { key: 'iwanaga', name: 'いわなが', icon: '/nijisanji/?plugin=ref&page=いわながライブ&src=iwanaga.jpg' },
                     { key: 'naruse_naru', name: '成瀬鳴', icon: '/nijisanji/?plugin=ref&page=成瀬鳴&src=naruse.jpg' },
