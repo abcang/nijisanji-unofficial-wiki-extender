@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.7.3
+// @version      0.8.0
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -128,9 +128,13 @@
                     { key: 'shizuku', name: '月見しずく', icon: '/nijisanji/?plugin=ref&page=月見しずく&src=shizuku.jpg' },
                     { key: 'rikiichi', name: 'ジョー・力一', icon: '/nijisanji/?plugin=ref&page=ジョー・力一&src=rikiichi.jpg' },
                     { key: 'achikita', name: '遠北千南', icon: '/nijisanji/?plugin=ref&page=遠北千南&src=achikita.jpg' },
+                    { key: 'naruse_naru', name: '成瀬鳴', icon: '/nijisanji/?plugin=ref&page=成瀬鳴&src=naruse.jpg' },
+                    { key: 'Belmond', name: 'ベルモンド・バンデラス', icon: '/nijisanji/?plugin=ref&page=ベルモンド・バンデラス&src=Belmond.png' },
+                    { key: 'yaguruma', name: '矢車りね', icon: '/?plugin=ref&page=矢車りね&src=yaguruma.jpg' },
+                    { key: 'yumeoikakeru', name: '夢追翔', icon: '/?plugin=ref&page=夢追翔&src=yumeoikakeru.png' },
+                    { key: 'kuroishiba', name: '黒井しば', icon: '/?plugin=ref&page=黒井しば&src=kuroishiba.jpg' },
                     // その他
                     { key: 'iwanaga', name: 'いわなが', icon: '/nijisanji/?plugin=ref&page=いわながライブ&src=iwanaga.jpg' },
-                    { key: 'naruse_naru', name: '成瀬鳴', icon: '/nijisanji/?plugin=ref&page=成瀬鳴&src=naruse.jpg' },
                 ];
                 this.settingKey = 'nijisanji_unofficial_wiki_extender_highlight_livers';
                 this.settings = new Set((localStorage.getItem(this.settingKey) || '').split(',').filter((key) => key));
