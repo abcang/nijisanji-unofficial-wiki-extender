@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.8.0
+// @version      0.8.1
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -133,6 +133,9 @@
                     { key: 'yaguruma', name: '矢車りね', icon: '/?plugin=ref&page=矢車りね&src=yaguruma.jpg' },
                     { key: 'yumeoikakeru', name: '夢追翔', icon: '/?plugin=ref&page=夢追翔&src=yumeoikakeru.png' },
                     { key: 'kuroishiba', name: '黒井しば', icon: '/?plugin=ref&page=黒井しば&src=kuroishiba.jpg' },
+                    // 統合以降(仮)
+                    { key: 'meiji-', name: '童田明治', icon: '/nijisanji/?plugin=ref&page=童田明治&src=meiji-.jpg' },
+                    { key: 'chitose', name: '久遠千歳', icon: '/nijisanji/?plugin=ref&page=久遠千歳&src=chitose.jpg' },
                     // その他
                     { key: 'iwanaga', name: 'いわなが', icon: '/nijisanji/?plugin=ref&page=いわながライブ&src=iwanaga.jpg' },
                 ];
