@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.8.1
+// @version      0.8.2
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -136,6 +136,8 @@
                     // 統合以降(仮)
                     { key: 'meiji-', name: '童田明治', icon: '/nijisanji/?plugin=ref&page=童田明治&src=meiji-.jpg' },
                     { key: 'chitose', name: '久遠千歳', icon: '/nijisanji/?plugin=ref&page=久遠千歳&src=chitose.jpg' },
+                    { key: 'mirei', name: '郡道美玲', icon: '/nijisanji/?plugin=ref&page=郡道美玲&src=mirei.png' },
+                    { key: 'roa', name: '夢月ロア', icon: '/nijisanji/?plugin=ref&page=夢月ロア&src=roa.png' },
                     // その他
                     { key: 'iwanaga', name: 'いわなが', icon: '/nijisanji/?plugin=ref&page=いわながライブ&src=iwanaga.jpg' },
                 ];
