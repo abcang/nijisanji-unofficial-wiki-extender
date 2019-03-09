@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.8.3
+// @version      0.8.4
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -141,6 +141,8 @@
                     { key: 'onomachi_haruka', name: '小野町春香', icon: '/nijisanji/?plugin=ref&page=小野町春香&src=9hwa-L8B_400x400.jpg' },
                     { key: 'KataribeTsumugu', name: '語部紡', icon: '/nijisanji/?plugin=ref&page=語部紡&src=AwhzYezD_400x400.jpg' },
                     { key: 'seto_miyako', name: '瀬戸美夜子', icon: '/nijisanji/?plugin=ref&page=瀬戸美夜子&src=Vy0Ubnmy_400x400.jpg' },
+                    { key: 'era', name: '御伽原江良', icon: '/nijisanji/?plugin=ref&page=御伽原江良&src=era.png' },
+                    { key: 'raito', name: '真堂雷斗', icon: '/nijisanji/?plugin=ref&page=真堂雷斗&src=raito.png' },
                     // その他
                     { key: 'iwanaga', name: 'いわなが', icon: '/nijisanji/?plugin=ref&page=いわながライブ&src=iwanaga.jpg' },
                 ];
