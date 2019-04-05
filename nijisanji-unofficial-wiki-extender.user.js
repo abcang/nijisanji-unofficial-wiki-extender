@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         にじさんじ非公式wiki Extender
 // @namespace    https://github.com/abcang/nijisanji-unofficial-wiki-extender
-// @version      0.8.6
+// @version      0.8.7
 // @description  にじさんじ非公式wikiを拡張するuserscript
 // @author       abcang
 // @match        https://wikiwiki.jp/nijisanji/*
@@ -130,9 +130,9 @@
                     { key: 'achikita', name: '遠北千南', icon: '/nijisanji/?plugin=ref&page=遠北千南&src=achikita.jpg' },
                     { key: 'naruse_naru', name: '成瀬鳴', icon: '/nijisanji/?plugin=ref&page=成瀬鳴&src=naruse.jpg' },
                     { key: 'Belmond', name: 'ベルモンド・バンデラス', icon: '/nijisanji/?plugin=ref&page=ベルモンド・バンデラス&src=Belmond.png' },
-                    { key: 'yaguruma', name: '矢車りね', icon: '/?plugin=ref&page=矢車りね&src=yaguruma.jpg' },
-                    { key: 'yumeoikakeru', name: '夢追翔', icon: '/?plugin=ref&page=夢追翔&src=yumeoikakeru.png' },
-                    { key: 'kuroishiba', name: '黒井しば', icon: '/?plugin=ref&page=黒井しば&src=kuroishiba.jpg' },
+                    { key: 'yaguruma', name: '矢車りね', icon: '/nijisanji/?plugin=ref&page=矢車りね&src=yaguruma.jpg' },
+                    { key: 'yumeoikakeru', name: '夢追翔', icon: '/nijisanji/?plugin=ref&page=夢追翔&src=yumeoikakeru.png' },
+                    { key: 'kuroishiba', name: '黒井しば', icon: '/nijisanji/?plugin=ref&page=黒井しば&src=kuroishiba.jpg' },
                     // 統合以降(仮)
                     { key: 'meiji-', name: '童田明治', icon: '/nijisanji/?plugin=ref&page=童田明治&src=meiji-.jpg' },
                     { key: 'chitose', name: '久遠千歳', icon: '/nijisanji/?plugin=ref&page=久遠千歳&src=chitose.jpg' },
@@ -144,7 +144,9 @@
                     { key: 'era', name: '御伽原江良', icon: '/nijisanji/?plugin=ref&page=御伽原江良&src=era.png' },
                     { key: 'inui_toko', name: '戌亥とこ', icon: '/nijisanji/?plugin=ref&page=戌亥とこ&src=4HRx55-F_400x400.png' },
                     { key: 'ange_katrina_', name: 'アンジュ・カトリーナ', icon: '/nijisanji/?plugin=ref&page=アンジュ・カトリーナ&src=ange.png' },
-                    { key: 'Lize_Helesta', name: 'リゼ・ヘルエスタ', icon: '/?plugin=ref&page=リゼ・ヘルエスタ&src=d30865-52-298798-3.png' },
+                    { key: 'Lize_Helesta', name: 'リゼ・ヘルエスタ', icon: '/nijisanji/?plugin=ref&page=リゼ・ヘルエスタ&src=d30865-52-298798-3.png' },
+                    { key: 'Saegusa_Akina', name: '三枝明那', icon: '/nijisanji/?plugin=ref&page=三枝明那&src=Saegusa_Akina.png' },
+                    { key: 'Aizono_Manami', name: '愛園愛美', icon: '/nijisanji/?plugin=ref&page=愛園愛美&src=Aizono_Manami.png' },
                     // その他
                     { key: 'iwanaga', name: 'いわなが', icon: '/nijisanji/?plugin=ref&page=いわながライブ&src=iwanaga.jpg' },
                 ];
